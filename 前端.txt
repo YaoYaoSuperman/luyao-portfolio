@@ -1,0 +1,453 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X, ArrowRight, Github, Mail, ChevronDown, ExternalLink, Award, Code, Cpu, Terminal, FileText, BookOpen, Music, Volume2, VolumeX } from 'lucide-react';
+
+// --- 流星特效组件 ---
+const MeteorShower = () => {
+  const [meteors, setMeteors] = useState([]);
+
+  useEffect(() => {
+    // 生成流星配置
+    const createMeteor = () => ({
+      id: Math.random(),
+      // 从 -50vw 到 150vw 随机分布，确保屏幕右侧也有流星划入
+      left: Math.floor(Math.random() * 200 - 50) + 'vw',
+      animationDuration: Math.random() * 2 + 2 + 's', // 2-4秒
+      animationDelay: Math.random() * 5 + 's', // 0-5秒延迟
+    });
+
+    const initialMeteors = Array.from({ length: 12 }).map(createMeteor);
+    setMeteors(initialMeteors);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {meteors.map((meteor) => (
+        <span
+          key={meteor.id}
+          className="absolute top-0 w-[2px] h-[80px] bg-gradient-to-b from-slate-400 to-transparent opacity-0 shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+          style={{
+            left: meteor.left,
+            // 注意：这里关键帧动画会处理位移
+            animation: `meteor ${meteor.animationDuration} linear infinite`,
+            animationDelay: meteor.animationDelay,
+          }}
+        ></span>
+      ))}
+      <style>{`
+        @keyframes meteor {
+          0% {
+            transform: translate(0, -100px) rotate(225deg);
+            opacity: 1;
+          }
+          70% {
+            opacity: 1;
+          }
+          100% {
+            /* 向左位移 500px，向下位移 800px，形成从右上到左下的轨迹 */
+            transform: translate(-500px, 100vh) rotate(225deg);
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default function App() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // 音乐播放状态
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  // 监听滚动以改变导航栏样式
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 音乐播放控制
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(e => console.log("Audio play failed (interaction required):", e));
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const navLinks = [
+    { name: '首页', href: '#home' },
+    { name: '关于', href: '#about' },
+    { name: '项目', href: '#work' },
+    { name: '生活', href: '#gallery' },
+    { name: '联系', href: '#contact' },
+  ];
+
+  const projects = [
+    {
+      id: 1,
+      title: "MonkeyOCR / 多模态文档解析",
+      category: "大模型架构设计",
+      image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop",
+      description: "基于SRR范式的多模态大模型。在OmniDocBench评测中超越GPT-4o，GitHub获6.4k Star，解决复杂排版语义割裂问题。"
+    },
+    {
+      id: 2,
+      title: "Lyric Flow / 垂直领域歌词大模型",
+      category: "LLM微调 & 强化学习",
+      image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop",
+      description: "基于Qwen3系列的微调与优化。通过CPT和SFT全流程，解决韵脚与格式痛点，打造具备专业级创作能力的垂直模型。"
+    },
+    {
+      id: 3,
+      title: "Signature Diffusion / 生成式鉴别",
+      category: "AIGC & 计算机视觉",
+      image: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=2070&auto=format&fit=crop",
+      description: "基于Diffusion Model的离线手写签名生成系统。构建400k高难度负样本数据集，有效提升鉴别模型鲁棒性。"
+    }
+  ];
+
+  const galleryPhotos = [
+    "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1551636688-6923b7720993?q=80&w=2069&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop",
+  ];
+
+  return (
+    <div className="bg-white text-slate-900 font-sans selection:bg-black selection:text-white antialiased relative">
+      
+      {/* 背景流星特效 */}
+      <MeteorShower />
+
+      {/* 背景音乐控件 */}
+      <div className="fixed bottom-8 right-8 z-50">
+        <button 
+          onClick={toggleMusic}
+          className={`p-3 rounded-full shadow-lg transition-all duration-300 flex items-center gap-2 ${isPlaying ? 'bg-black text-white w-auto px-4' : 'bg-white text-slate-800 hover:bg-slate-100 w-12 h-12 justify-center'}`}
+        >
+          {isPlaying ? <Volume2 size={18} className="animate-pulse"/> : <VolumeX size={18} />}
+          {isPlaying && <span className="text-xs font-medium tracking-widest whitespace-nowrap">SOUND ON</span>}
+        </button>
+        {/* 请在这里替换您的音乐链接 */}
+        <audio ref={audioRef} loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112778.mp3" />
+      </div>
+
+      {/* 导航栏 */}
+      <nav 
+        className={`fixed w-full z-40 transition-all duration-500 ease-in-out ${
+          isScrolled ? 'bg-white/95 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-8'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+          <a href="#" className="text-2xl font-light tracking-widest uppercase z-50 mix-blend-difference">
+            LU<span className="font-bold">.YAO</span>
+          </a>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-12">
+            {navLinks.map((link) => (
+              <a 
+                key={link.name} 
+                href={link.href} 
+                className="text-sm font-medium tracking-widest text-slate-600 hover:text-black transition-colors relative group"
+              >
+                {link.name}
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className="md:hidden z-50 p-2 focus:outline-none"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 bg-white z-40 flex flex-col justify-center items-center transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+        {navLinks.map((link) => (
+          <a 
+            key={link.name} 
+            href={link.href}
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-4xl font-light tracking-widest py-4 hover:text-slate-500 transition-colors"
+          >
+            {link.name}
+          </a>
+        ))}
+      </div>
+
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen flex items-center pt-20 px-6 md:px-12 max-w-7xl mx-auto z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+          
+          {/* 左侧文字区 */}
+          <div className="lg:col-span-7 z-10 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+            <p className="text-slate-500 tracking-[0.2em] mb-6 text-sm md:text-base uppercase flex items-center gap-2">
+              <span className="w-8 h-[1px] bg-slate-400"></span>
+              AI Algorithm Engineer
+            </p>
+            <h1 className="text-5xl md:text-8xl font-light leading-none tracking-tight mb-8 text-slate-900">
+              探索智能边界，<br/>
+              <span className="font-semibold text-slate-800">构建未来模型。</span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 max-w-xl font-light leading-relaxed mb-10">
+              我是卢瑶，华中科技大学人工智能硕士。专注于 LLM 预训练、多模态理解及 MLOps 落地。致力于让算法在复杂场景中发挥极致效能。
+            </p>
+            
+            {/* 按钮组 - 更新部分 */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+               <a href="#" className="inline-flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-none hover:bg-slate-800 transition-all group">
+                <FileText size={18} />
+                <span className="tracking-widest text-sm font-medium">简历 PDF</span>
+                <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform ml-2" />
+              </a>
+              <a href="#" className="inline-flex items-center justify-center gap-2 border border-slate-300 bg-white text-slate-900 px-8 py-4 rounded-none hover:border-black hover:bg-slate-50 transition-all">
+                <BookOpen size={18} />
+                <span className="tracking-widest text-sm font-medium">研究论文 PDF</span>
+              </a>
+            </div>
+            
+            <div className="text-xs text-slate-400 font-light tracking-wide">
+              * 点击上方按钮即可下载详细文档
+            </div>
+          </div>
+
+          {/* 右侧图片区 */}
+          <div className="lg:col-span-5 relative h-[500px] lg:h-[700px] hidden md:block opacity-0 animate-[fadeIn_1.2s_ease-out_0.3s_forwards]">
+             <div className="absolute top-10 right-10 w-full h-full border border-slate-200 rounded-none -z-10 bg-white/50 backdrop-blur-sm"></div>
+             
+             <div className="w-full h-full overflow-hidden relative shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop" 
+                  alt="Lu Yao Profile" 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
+                />
+                <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm p-4 shadow-lg border-l-2 border-black max-w-[200px]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Status</p>
+                    <p className="text-sm font-medium">Open for Opportunities</p>
+                </div>
+             </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30 hidden md:block">
+          <ChevronDown size={24} />
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-32 bg-slate-50/80 backdrop-blur-sm relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide flex items-center gap-3">
+                关于我 
+                <span className="text-lg text-slate-400 font-light ml-2">// About Me</span>
+              </h2>
+              <div className="h-[1px] w-20 bg-black"></div>
+              <p className="text-slate-600 leading-loose font-light text-lg">
+                作为<span className="font-medium text-black">华中科技大学人工智能硕士 (Rank 1/148)</span>，我在大模型、NLP 及多模态领域拥有深厚的研究背景。我不仅热衷于 Transformer 架构的理论创新，更注重技术在实际业务中的落地。
+              </p>
+              <p className="text-slate-600 leading-loose font-light text-lg">
+                我曾获得国家奖学金，熟悉 PyTorch、DeepSpeed 等框架，具备从数据构建、模型微调 (LoRA/QLoRA) 到高性能部署 (TensorRT/vLLM) 的全栈能力。
+              </p>
+              
+              <div className="pt-6">
+                <div className="flex items-center gap-4 text-slate-500 mb-2">
+                   <Award size={20} className="text-black"/>
+                   <span>国家奖学金 / 校级三好学生 / 感恩近现代中国科学家奖学金</span>
+                </div>
+                <div className="flex items-center gap-4 text-slate-500">
+                   <Terminal size={20} className="text-black"/>
+                   <span>CET-6 (535) / CET-4 (547)</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white p-8 shadow-sm border border-slate-100">
+               <h3 className="text-xl font-light tracking-widest mb-8 uppercase text-center md:text-left">Tech Stack</h3>
+               
+               <div className="space-y-6">
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium flex items-center gap-2"><Cpu size={16}/> LLM & Algorithms</span>
+                      <span className="text-xs text-slate-400">Transformer, RAG, RLHF</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1"><div className="bg-black h-1 w-[95%]"></div></div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium flex items-center gap-2"><Code size={16}/> Frameworks</span>
+                      <span className="text-xs text-slate-400">PyTorch, DeepSpeed, HuggingFace</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1"><div className="bg-black h-1 w-[90%]"></div></div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium flex items-center gap-2"><Terminal size={16}/> Deployment & Ops</span>
+                      <span className="text-xs text-slate-400">Docker, TensorRT, Linux, Git</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1"><div className="bg-black h-1 w-[85%]"></div></div>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium flex items-center gap-2">Languages</span>
+                      <span className="text-xs text-slate-400">Python, C++</span>
+                    </div>
+                    <div className="w-full bg-slate-100 h-1"><div className="bg-black h-1 w-[88%]"></div></div>
+                  </div>
+               </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="work" className="py-32 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-4">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-light tracking-tight">精选项目</h2>
+              <p className="mt-4 text-slate-500 font-light">学术研究与工程落地的结合。</p>
+            </div>
+            <span className="hidden md:block text-slate-400 text-sm tracking-widest">( 2024 — 2026 )</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <div 
+                key={project.id} 
+                className="group cursor-pointer flex flex-col h-full bg-white border border-slate-100 p-4 hover:shadow-xl transition-all duration-300"
+              >
+                <div className="overflow-hidden relative mb-6 w-full aspect-[4/3]">
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors z-10 duration-500"></div>
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute top-4 right-4 z-20 bg-white shadow-md p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                     <ExternalLink size={16} className="text-black"/>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col flex-grow">
+                  <span className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+                    {project.category}
+                  </span>
+                  <h3 className="text-xl font-medium mb-3 group-hover:underline underline-offset-4 decoration-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-grow">
+                    {project.description}
+                  </p>
+                  <div className="mt-auto border-t border-slate-100 pt-4">
+                    <span className="text-xs font-bold tracking-wider uppercase border border-slate-200 px-3 py-1 rounded-full inline-block group-hover:bg-black group-hover:text-white transition-colors">
+                      View Case Study
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-32 bg-neutral-900 text-white relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end">
+             <div>
+                <p className="text-neutral-500 tracking-[0.2em] uppercase mb-2 text-sm">Life Outside Code</p>
+                <h2 className="text-4xl md:text-5xl font-light">生活影像</h2>
+             </div>
+             <p className="mt-4 md:mt-0 text-neutral-400 text-sm max-w-xs font-light leading-relaxed text-right">
+                代码之外，我通过镜头观察世界。这里记录了一些碎片。
+             </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-[600px] md:h-[500px]">
+            <div className="col-span-2 row-span-2 relative overflow-hidden group">
+               <img src={galleryPhotos[0]} alt="Gallery 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"/>
+               <div className="absolute bottom-4 left-4 text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Travel</div>
+            </div>
+            <div className="col-span-1 relative overflow-hidden group">
+               <img src={galleryPhotos[1]} alt="Gallery 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"/>
+            </div>
+             <div className="col-span-1 relative overflow-hidden group">
+               <img src={galleryPhotos[2]} alt="Gallery 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"/>
+            </div>
+             <div className="col-span-2 relative overflow-hidden group">
+               <img src={galleryPhotos[3]} alt="Gallery 4" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"/>
+               <div className="absolute bottom-4 left-4 text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">Lifestyle</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-32 bg-white relative z-10">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <p className="text-slate-500 tracking-[0.2em] uppercase mb-6 text-sm">Get In Touch</p>
+          <h2 className="text-5xl md:text-7xl font-light mb-12 tracking-tight">期待与您合作。</h2>
+          <p className="text-slate-600 mb-12 font-light text-lg">
+            如果您对大模型应用、文档解析或 AI 落地有任何想法，<br className="hidden md:block"/>或者想要获取我的完整简历，欢迎随时联系。
+          </p>
+          
+          <a href="mailto:hust_luyao@hust.edu.cn" className="text-2xl md:text-5xl font-light border-b-2 border-slate-100 hover:border-black pb-2 transition-all duration-300 inline-flex items-center gap-4 group">
+            hust_luyao@hust.edu.cn
+            <ArrowRight className="opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" size={32}/>
+          </a>
+
+          <div className="mt-8 text-slate-500 font-light">
+             TEL: 181-7151-3383
+          </div>
+
+          <div className="flex justify-center space-x-12 mt-20">
+            <a href="#" className="flex flex-col items-center gap-2 text-slate-400 hover:text-black hover:scale-110 transition-all duration-300 group">
+                <Github size={28} />
+                <span className="text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Github</span>
+            </a>
+            <a href="mailto:hust_luyao@hust.edu.cn" className="flex flex-col items-center gap-2 text-slate-400 hover:text-black hover:scale-110 transition-all duration-300 group">
+                <Mail size={28} />
+                 <span className="text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Email</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-slate-100 relative z-10 bg-white">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400 tracking-widest uppercase">
+          <p>&copy; 2026 Lu Yao. All Rights Reserved.</p>
+          <p className="mt-2 md:mt-0">Designed & Developed by Lu Yao</p>
+        </div>
+      </footer>
+
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}

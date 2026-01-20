@@ -1,103 +1,68 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { ArrowRight, Download, Sparkles } from "lucide-react"
+import { ArrowRight, FileText, BookOpen, ChevronDown } from "lucide-react"
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden px-4">
-      <div className="absolute inset-0 bg-gradient-radial from-blue-500/10 via-purple-500/5 to-transparent opacity-50" />
-      
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-[120px] animate-pulse-slow" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[150px] animate-pulse-slow" />
-      
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm"
-        >
-          <Sparkles className="w-4 h-4 text-electric-blue" />
-          <span className="text-gray-300">欢迎来到我的 AI 研究世界</span>
-        </motion.div>
-        
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-6xl md:text-8xl font-bold mb-6"
-        >
-          <span className="gradient-text">Luyao</span>
-          <br />
-          <span className="text-white/90">卢瑶</span>
-        </motion.h1>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-2xl md:text-3xl text-gray-300 mb-4 font-light"
-        >
-          有志 AI 研究员
-        </motion.p>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-lg md:text-xl text-gray-400 mb-8"
-        >
-          计算机视觉 & 自然语言处理
-        </motion.p>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-electric-blue/20 to-neon-purple/20 border border-white/10 mb-10"
-        >
-          <span className="text-electric-blue font-semibold">排名 1/148</span>
-          <span className="text-gray-400">|</span>
-          <span className="text-gray-300">石河子大学前 1%</span>
-          <span className="text-gray-400">|</span>
-          <span className="text-neon-purple font-semibold">国家奖学金获得者</span>
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <a href="#research" className="btn-primary flex items-center gap-2">
-            查看研究
-            <ArrowRight className="w-4 h-4" />
-          </a>
-          <a href="#contact" className="btn-secondary flex items-center gap-2">
-            联系我
-          </a>
-          <button className="btn-secondary flex items-center gap-2">
-            <Download className="w-4 h-4" />
-            下载简历
-          </button>
-        </motion.div>
-      </div>
-      
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center p-2">
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="w-1 h-3 bg-electric-blue rounded-full"
-          />
+    <section id="home" className="relative min-h-screen flex items-center pt-20 w-full z-10">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+
+        <div className="lg:col-span-7 z-10 opacity-0 animate-[fadeIn_1s_ease-out_forwards]">
+          <p className="text-slate-500 tracking-[0.2em] mb-6 text-sm md:text-base uppercase flex items-center gap-2">
+            <span className="w-8 h-[1px] bg-slate-400"></span>
+            AI Algorithm Engineer
+          </p>
+          <h1 className="text-5xl md:text-8xl font-light leading-none tracking-tight mb-8 text-slate-900">
+            探索智能边界，<br/>
+            <span className="font-semibold text-slate-800">构建未来模型。</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-600 max-w-xl font-light leading-relaxed mb-10">
+            我是卢瑶，华中科技大学人工智能硕士。专注于 LLM 预训练、多模态理解及 MLOps 落地。致力于让算法在复杂场景中发挥极致效能。
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <a
+              href="https://yaoyaosuperman.github.io/Job_resume.pdf"
+              className="inline-flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-none hover:bg-slate-800 transition-all group"
+            >
+              <FileText size={18} />
+              <span className="tracking-widest text-sm font-medium">简历 PDF</span>
+              <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform ml-2" />
+            </a>
+            <a
+              href="https://yaoyaosuperman.github.io/A%20Lightweight%20Residual%20Network%20For%20Pneumonia%20Classification.pdf"
+              className="inline-flex items-center justify-center gap-2 border border-slate-300 bg-white text-slate-900 px-8 py-4 rounded-none hover:border-black hover:bg-slate-50 transition-all"
+            >
+              <BookOpen size={18} />
+              <span className="tracking-widest text-sm font-medium">研究论文 PDF</span>
+            </a>
+          </div>
+
+          <div className="text-xs text-slate-400 font-light tracking-wide">
+            * 点击上方按钮即可下载详细文档
+          </div>
         </div>
-      </motion.div>
+
+        <div className="lg:col-span-5 relative max-h-[85vh] hidden md:block opacity-0 animate-[fadeIn_1.2s_ease-out_0.3s_forwards]">
+           <div className="absolute top-10 right-10 w-full h-full border border-slate-200 rounded-none -z-10 bg-white/50 backdrop-blur-sm"></div>
+
+           <div className="w-full overflow-hidden relative shadow-2xl aspect-[4/5]">
+              <img
+                src="/profile.jpg"
+                alt="Lu Yao Profile"
+                className="w-full h-auto object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur-sm p-6 shadow-lg border-l-2 border-black max-w-[200px]">
+                  <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Status</p>
+                  <p className="text-sm font-medium">Master's student</p>
+              </div>
+           </div>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30 hidden md:block">
+          <ChevronDown size={24} className="text-slate-400" />
+        </div>
+      </div>
     </section>
   )
 }

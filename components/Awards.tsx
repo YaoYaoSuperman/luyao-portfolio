@@ -37,17 +37,17 @@ export default function Awards() {
   }
 
   return (
-    <section className="py-20 px-4">
+    <section className="py-20 px-6 md:px-12">
       <motion.div
         variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-100px" }}
-        className="max-w-6xl mx-auto"
+        className="w-full"
       >
         <motion.h2
           variants={item}
-          className="text-3xl md:text-4xl font-bold text-center mb-16 gradient-text"
+          className="text-[4vw] md:text-4xl font-bold text-center mb-16 gradient-text"
         >
           荣誉与奖项
         </motion.h2>

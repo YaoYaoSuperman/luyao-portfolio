@@ -1,19 +1,23 @@
+import Navbar from "@/components/Navbar"
+import MeteorShower from "@/components/MeteorShower"
 import Hero from "@/components/Hero"
-import Stats from "@/components/Stats"
-import Papers from "@/components/Papers"
+import About from "@/components/About"
 import Projects from "@/components/Projects"
-import Awards from "@/components/Awards"
-import Footer from "@/components/Footer"
+import Gallery from "@/components/Gallery"
+import Contact from "@/components/Contact"
+import MusicControl from "@/components/MusicControl"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-white">
+      <MeteorShower />
+      <Navbar />
       <Hero />
-      <Stats />
-      <Papers />
+      <About />
       <Projects />
-      <Awards />
-      <Footer />
+      <Gallery />
+      <Contact />
+      <MusicControl />
     </main>
   )
 }
