@@ -9,15 +9,15 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
 
           <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-light tracking-wide flex items-center gap-3">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-light tracking-wide flex items-center gap-3">
               关于我
-              <span className="text-lg text-slate-400 font-light ml-2">// About Me</span>
+              <span className="text-base md:text-lg text-slate-400 font-light ml-2">// About Me</span>
             </h2>
             <div className="h-[1px] w-20 bg-black"></div>
-            <p className="text-lg text-slate-600 leading-loose font-light">
+            <p className="text-base md:text-lg text-slate-600 leading-loose font-light">
               作为<span className="font-medium text-black">华中科技大学人工智能硕士 (Rank 1/148)</span>，我在大模型、NLP 及多模态领域拥有深厚的研究背景。我不仅热衷于 Transformer 架构的理论创新，更注重技术在实际业务中的落地。
             </p>
-            <p className="text-lg text-slate-600 leading-loose font-light">
+            <p className="text-base md:text-lg text-slate-600 leading-loose font-light">
               我曾获得国家奖学金，熟悉 PyTorch、DeepSpeed 等框架，具备从数据构建、模型微调 (LoRA/QLoRA) 到高性能部署 (TensorRT/vLLM) 的全栈能力。
             </p>
 

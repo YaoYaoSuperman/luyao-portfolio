@@ -14,10 +14,10 @@ export default function Gallery() {
         <div className="w-full">
           <div className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end">
              <div>
-                <p className="text-neutral-500 tracking-[0.2em] uppercase mb-2 text-sm">Life Outside Code</p>
-                <h2 className="text-4xl md:text-5xl font-light">生活影像</h2>
+                <p className="text-neutral-500 tracking-[0.2em] uppercase mb-2 text-sm md:text-base">Life Outside Code</p>
+                <h2 className="text-2xl md:text-4xl lg:text-5xl font-light">生活影像</h2>
              </div>
-             <p className="mt-4 md:mt-0 text-neutral-400 text-sm max-w-xs font-light leading-relaxed text-right">
+             <p className="mt-4 md:mt-0 text-xs md:text-sm max-w-xs font-light leading-relaxed text-right">
                 代码之外，我通过镜头观察世界。这里记录了一些碎片。
              </p>
           </div>

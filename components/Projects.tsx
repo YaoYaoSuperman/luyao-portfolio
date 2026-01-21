@@ -33,8 +33,8 @@ export default function Projects() {
         <div className="w-full">
           <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-4">
             <div>
-              <h2 className="text-4xl md:text-6xl font-light tracking-tight">精选项目</h2>
-              <p className="mt-4 text-slate-500 font-light">学术研究与工程落地的结合。</p>
+              <h2 className="text-2xl md:text-4xl lg:text-6xl font-light tracking-tight">精选项目</h2>
+              <p className="mt-4 text-sm md:text-base text-slate-500 font-light">学术研究与工程落地的结合。</p>
             </div>
             <span className="hidden md:block text-slate-400 text-sm tracking-widest">( 2024 — 2026 )</span>
           </div>

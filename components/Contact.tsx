@@ -9,10 +9,10 @@ export default function Contact() {
         <div className="w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <div className="space-y-8">
-             <p className="text-slate-500 tracking-[0.2em] uppercase mb-4 text-sm">Get In Touch</p>
-             <h2 className="text-4xl md:text-6xl font-light tracking-tight">开启对话</h2>
+             <p className="text-slate-500 tracking-[0.2em] uppercase mb-4 text-xs md:text-sm">Get In Touch</p>
+             <h2 className="text-2xl md:text-4xl lg:text-6xl font-light tracking-tight">开启对话</h2>
              <div className="h-[1px] w-20 bg-black"></div>
-             <p className="text-lg text-slate-600 leading-loose font-light">
+             <p className="text-sm md:text-base lg:text-lg text-slate-600 leading-loose font-light">
                 无论是技术交流、项目合作还是工作机会，随时欢迎联系。
              </p>
 
